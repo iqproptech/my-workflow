@@ -1,7 +1,10 @@
 const puppeteer = require('puppeteer');
 
 (async () => {
-  const browser = await puppeteer.launch(); // launches bundled Chromium
+  const browser = await puppeteer.launch({
+  	args: ['--no-sandbox', '--disable-setuid-sandbox'],
+});
+ // launches bundled Chromium
   const page = await browser.newPage();
 
   // Start your local server in a separate terminal before running this test
