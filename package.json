@@ -1,0 +1,17 @@
+{
+  "name": "saas-qa-code",
+  "version": "1.0.0",
+  "description": "A simple web application for QA testing purposes",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node mcp-smoke-test.js"
+  },
+  "keywords": ["qa", "testing", "web", "saas"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "puppeteer": "^21.0.0"
+  }
+}
