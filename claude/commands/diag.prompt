@@ -1,0 +1,20 @@
+# name: /diag
+# description: Print cwd, show git/gh status, and write a test file in scratchpads
+# arguments:
+
+Run these commands exactly and print their outputs:
+
+1) pwd
+2) ls -la
+3) git rev-parse --is-inside-work-tree
+4) git branch --show-current
+5) git remote -v
+6) gh auth status
+
+Then ensure ./scratchpads exists:
+- mkdir -p ./scratchpads
+
+Write a file so we can verify filesystem access:
+- date > ./scratchpads/diag-$(date +%s).txt
+
+Finally, print "WROTE_FILE" and the exact path of the file you wrote on a single line.

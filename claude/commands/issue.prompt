@@ -1,0 +1,44 @@
+# name: /issue
+# description: Plan → branch → (optional) local smoke test → open PR for a GitHub issue
+# arguments: issue_number
+
+You are Claude Code running inside a Bash-capable environment with git and gh installed.
+Work ONLY inside the current repository.
+
+GOAL
+Process GitHub issue #{issue_number} using a small, safe, and verifiable loop:
+PLAN → BRANCH → (optional) TEST → PR.
+
+STRICT PROCEDURE
+
+PLAN
+1) Run: gh issue view #{issue_number} --json number,title,body,url,labels,assignees
+2) Think: break down into the smallest concrete tasks needed to satisfy the issue.
+3) Write a short plan file to ./scratchpads/issue-#{issue_number}.md including:
+   - Issue URL
+   - Checklist of tasks
+   - Any assumptions/risks
+
+BRANCH
+1) Create a short, kebab-case slug from the title (e.g., "add-about-link").
+2) git checkout -b issue/#{issue_number}-<slug>
+3) Make small, focused commits as you work. Keep diffs minimal.
+
+(OPTIONAL) LOCAL SMOKE TEST
+If the issue touches the UI or server behavior, validate our tiny app still works:
+1) Start server: node server.js & echo $! > .server.pid
+2) Wait for server: npx --yes wait-on http://localhost:3000
+3) Run smoke: node mcp-smoke-test.js
+4) Stop server: kill $(cat .server.pid) || true
+
+PR
+1) Create the PR with the plan in the body:
+   gh pr create \
+     --title "[#{issue_number}] <short title here>" \
+     --body "Plan:\n$(cat ./scratchpads/issue-#{issue_number}.md)"
+2) Print ONLY the PR URL as the final line of your reply.
+
+RULES
+- Prefer many tiny commits over one large commit.
+- Do not run anything interactive that would block.
+- If something fails, explain briefly and stop.
